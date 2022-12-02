@@ -1,0 +1,60 @@
+<div class='container-wrap__login register-mode'>
+    <div class='form-container__login'>
+        <div class='content-left w-60'>
+            {{!-- <form action='#' class='form-action-login form-action-register'> --}}
+                <div class="form-action-login form-action-register">
+
+                <h2 class='title'>Đăng Ký</h2>
+
+                <div class="input-field--wrap">
+                    <div class='input-field'>
+                        <input required type='text' placeholder='Tên đăng nhập' id="username-register" />
+                        <ion-icon name='person'></ion-icon>
+                    </div>
+                    <div class='input-field'>
+                        <ion-icon name='lock-closed'></ion-icon>
+                        <input required type='password' placeholder='Mật khẩu' id="pass-register" />
+                    </div>
+                </div>
+               <div class="input-field--wrap">
+                    <div class='input-field'>
+                        <input required type='text' placeholder='Họ tên' id="fullname-register" />
+                        <ion-icon name='person'></ion-icon>
+                    </div>
+                    <div class='input-field'>
+                        <input required type='email' placeholder='Email' id="email-register" />
+                        <ion-icon name='person'></ion-icon>
+                    </div>
+               </div>
+               <div class="input-field--wrap">
+                    <div class='input-field'>
+                        <input required type='text' placeholder='Số điện thoại' id="phone-register" />
+                        <ion-icon name='person'></ion-icon>
+                    </div>
+                    <div class='input-field'>
+                        <input required type='text' placeholder='CMND' id="cmnd-register" />
+                        <ion-icon name='person'></ion-icon>
+                    </div>
+               </div>
+                <div class='form-more'>
+                    <p class="text text-notify hidden"> Mật khẩu chưa trùng khớp !
+                </div> 
+                <div class='form-more'>
+                    <p class="text text-notify-user hidden"> User này đã tồn tại !
+                </div> 
+                
+                <button onclick="handleRegister()" type='submit' class='btn btn-login btn-register'>Đăng Ký</button>
+                </div>
+
+            {{!-- </form> --}}
+        </div>
+        <div class='content-right w-40'>
+            <div class='panel-content'>
+                <img src='https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-HDBank.png' alt='' />
+                <div class='btn-pass'><a href='/user/login'></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

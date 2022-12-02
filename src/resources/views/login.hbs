@@ -1,0 +1,54 @@
+<div class='container-wrap__login'>
+    <div class='form-container__login'>
+        <div class='content-left'>
+            <div class='panel-content'>
+                <img src='https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-HDBank.png' alt='' />
+                <div class='btn-pass'><a href='/user/register'></a></div>
+            </div>
+        </div>
+        <div class='content-right'>
+            {{! <form class='form-action-login' method='POST' action='/user/singin'> }}
+            <div class='form-action-login'>
+                <h2 class='title'>Đăng Nhập</h2>
+                <div class='input-field'>
+                    <input required type='text' placeholder='Tên đăng nhập' name='username' id='username' />
+                    <ion-icon name='person'></ion-icon>
+                </div>
+                <div class='input-field'>
+                    <ion-icon name='lock-closed'></ion-icon>
+                    <input
+                        class='input-password'
+                        required
+                        type='password'
+                        placeholder='Mật khẩu'
+                        name='password'
+                        id='password'
+                    />
+                </div>
+                <div class='form-more'>
+                    <p class='text hidden'>
+                        <span style='position: relative; top: 2px;'><ion-icon name='warning-outline'></ion-icon></span>
+                        Tài khoản hoặc mật khẩu chưa chính xác !
+                    </p>
+                </div>
+                <div class='form-more'>
+                    <label>
+                        <div>
+                            <input class='checkToggle' type='checkbox' onclick='showHidePassword()' />
+                            Hiện mật khẩu
+                        </div>
+                    </label>
+                    <p class='text-forget'>Quên mật khẩu ?</p>
+                </div>
+
+                <button type='submit' onclick='handleLogin()' class='btn btn-success btn-login'>Đăng Nhập</button>
+            </div>
+            {{! </form> }}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() { const username = document.querySelector('#username')
+    username.focus() })
+</script>
