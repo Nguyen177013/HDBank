@@ -48,17 +48,25 @@ app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)
 })
 
-// Log out
-app.get('/deleteCookie', function(req, res, next) {
-    let cookie = req.cookies
-    for (var prop in cookie) {
-        if (!cookie.hasOwnProperty(prop)) {
-            continue
-        }
-        res.cookie(prop, '', { expires: new Date(0) })
-    }
-    res.redirect('/user/login')
+// POST login
+app.post('/user/login', (req, res, next) => {
+    var username = req.body.username
+    var password = req.body.password
+
+    res.json(username)
 })
+
+// Log out
+// app.get('/deleteCookie', function(req, res, next) {
+//     let cookie = req.cookies
+//     for (var prop in cookie) {
+//         if (!cookie.hasOwnProperty(prop)) {
+//             continue
+//         }
+//         res.cookie(prop, '', { expires: new Date(0) })
+//     }
+//     res.redirect('/user/login')
+// })
 
 // Nhận các route sau đó sử dụng (luôn để dưới cùng)
 const route = require('./routes')

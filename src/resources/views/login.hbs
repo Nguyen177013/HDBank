@@ -7,8 +7,7 @@
             </div>
         </div>
         <div class='content-right'>
-            {{! <form class='form-action-login' method='POST' action='/user/singin'> }}
-            <div class='form-action-login'>
+            <form class='form-action-login' method='POST'>
                 <h2 class='title'>Đăng Nhập</h2>
                 <div class='input-field'>
                     <input required type='text' placeholder='Tên đăng nhập' name='username' id='username' />
@@ -41,9 +40,8 @@
                     <p class='text-forget'>Quên mật khẩu ?</p>
                 </div>
 
-                <button type='submit' onclick='handleLogin()' class='btn btn-success btn-login'>Đăng Nhập</button>
-            </div>
-            {{! </form> }}
+                <button type='submit' class='btn btn-success btn-login' onclick='handleLogin()'>Đăng Nhập</button>
+            </form>
         </div>
     </div>
 </div>
