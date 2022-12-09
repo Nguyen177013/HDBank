@@ -1,0 +1,47 @@
+<sidebar class='sidebar'>
+    <ul class='nav-list'>
+        <li class='nav-heading'>
+            <a href='/'><img
+                    class='logo-img'
+                    src='https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-HDBank.png'
+                    alt=''
+                /></a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-item-link' href='/'>
+                <span class='nav-icon'><ion-icon name='home-outline'></ion-icon></span>
+                <span class='nav-title'>Tài khoản</span>
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-item-link' href='/tranfer'>
+                <span class='nav-icon'><ion-icon name='git-compare-outline'></ion-icon></span>
+                <span class='nav-title'>Chuyển tiền</span>
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-item-link' href='/orders'>
+                <span class='nav-icon'><ion-icon name='receipt-outline'></ion-icon></span>
+                <span class='nav-title'>Lịch sử giao dịch</span>
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-item-link' href='/history'>
+                <span class='nav-icon'><ion-icon name='shield-half-outline'></ion-icon></span>
+                <span class='nav-title'>Đổi mật khẩu</span>
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-item-link' href='/deleteCookie'>
+                <span class='nav-icon'><ion-icon name='log-out-outline'></ion-icon></span>
+                <span class='nav-title'>Đăng xuất</span>
+            </a>
+        </li>
+    </ul>
+</sidebar>
+
+{{! lưu lại index của item được active để khi nhấn sang trang khác vẫn được giữ màu }}
+<script>
+    let prev = document.querySelectorAll('.nav-item'); if (localStorage.getItem('handleMode') === 'true') { prev[{{index}}].classList.add("active-mode-color");
+    }else { prev[{{index}}].classList.add("active"); }
+</script>

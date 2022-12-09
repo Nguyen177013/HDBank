@@ -48,25 +48,89 @@ app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)
 })
 
-// POST login
-app.post('/user/login', (req, res, next) => {
-    var username = req.body.username
-    var password = req.body.password
+var token
 
-    res.json(username)
-})
+// Get Home
+app.get(
+    '/',
+    (req, res, next) => {
+        try {
+            // kiểm tra thấy nếu token có giá trị sẽ cho phép truy cập vào trang HOME
+            // sai sẽ trả về trang LOGIN
+            token = req.cookies.token
+            if (token) {
+                next()
+            } else {
+                res.render('login')
+            }
+        } catch (error) {
+            res.render('login')
+        }
+    },
+    (req, res, next) => {
+        res.render('home', { index: 0, token: token })
+    },
+)
+
+// Get Tranfer
+app.get(
+    '/tranfer',
+    (req, res, next) => {
+        try {
+            // lấy accountNo từ token để chuyển khoản
+            token = req.cookies.token
+            if (token) {
+                next()
+            } else {
+                res.render('login')
+            }
+        } catch (error) {
+            res.render('login')
+        }
+    },
+    (req, res, next) => {
+        res.render('tranfer', { index: 1, token: token })
+    },
+)
 
 // Log out
-// app.get('/deleteCookie', function(req, res, next) {
-//     let cookie = req.cookies
-//     for (var prop in cookie) {
-//         if (!cookie.hasOwnProperty(prop)) {
-//             continue
-//         }
-//         res.cookie(prop, '', { expires: new Date(0) })
-//     }
-//     res.redirect('/user/login')
-// })
+app.get('/deleteCookie', function(req, res, next) {
+    let cookie = req.cookies
+    for (var prop in cookie) {
+        if (!cookie.hasOwnProperty(prop)) {
+            continue
+        }
+        res.cookie(prop, '', { expires: new Date(0) })
+    }
+    res.redirect('/user/login')
+})
+
+// SMS
+
+const Nexmo = require('nexmo')
+const nexmo = new Nexmo({
+    apiKey: '098b8412',
+    apiSecret: 'DiE1pV1p3R0vPutR',
+})
+
+app.post('/sendsms', function(req, res) {
+    const from = 'Vonage APIs'
+    const to = '84971521473'
+    const text = 'Hello Khai Vo'
+
+    nexmo.message.sendSms(from, to, text, (err, responseData) => {
+        if (err) {
+            console.log(err)
+        } else {
+            if (responseData.messages[0]['status'] === '0') {
+                // console.log('Message sent successfully.')
+                res.json(responseData)
+            } else {
+                res.json(`Message failed with error: ${responseData.messages[0]['error-text']}`)
+            }
+        }
+    })
+})
 
 // Nhận các route sau đó sử dụng (luôn để dưới cùng)
 const route = require('./routes')

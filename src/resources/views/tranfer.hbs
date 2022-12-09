@@ -1,0 +1,96 @@
+<div class='container-left'>
+    {{> sidebar }}
+</div>
+<div class='container-right'>
+    <div class='tranfer'>
+        <div class='tranfer-left'>
+            <img
+                src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
+                alt=''
+            />
+        </div>
+        <div class='tranfer-right'>
+            <div class='tranfer-header'>Chuyển tiền</div>
+
+            <div class='container-content'>
+                <div class='mobile-verify go-right active-box'>
+                    <form class='form-action-tranfer' method='POST'>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Tài khoản nguồn :</div>
+                            <input type='text' class='tranfer-input' value='{{token}}' disabled />
+                        </div>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Tài khoản thụ hưởng :</div>
+                            <input type='text' class='tranfer-input' name='toAcct' id='toAcct' value='' required />
+                        </div>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Số tiền :</div>
+                            <input
+                                type='number'
+                                class='tranfer-input'
+                                name='amount'
+                                id='amount'
+                                value=''
+                                min='10000'
+                                required
+                            />
+                        </div>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Ghi chú :</div>
+                            <input
+                                type='text'
+                                class='tranfer-input'
+                                name='description'
+                                id='description'
+                                value=''
+                                required
+                            />
+                        </div>
+                        <div class='tranfer-button'>
+                            <button type='submit' class='btn btn-continue btn-confirm' onclick='handleTranfer()'>
+                                Hoàn tất
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class='otp-container go-right'>
+                    <div class='nav d-flex align-items-center'>
+                        <i class='btn-back fas fa-arrow-left'></i>
+                        <p>Mã xác nhận</p>
+                    </div>
+                    <div class='text'>
+                        <p>
+                            Vui lòng nhập mã xác minh
+                            <br />được gửi đến
+                            <span class='phone'>+8412345***</span>
+                        </p>
+                        <p>
+                            Mã OTP sẽ hết hạn trong
+                            <span class='expire text-dark'>30s</span>
+                        </p>
+                    </div>
+                    <div class='otp-input d-flex'>
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                    </div>
+                    <span class='text-danger'></span>
+                    <button class='btn btn-verify d-flex align-items-center justify-content-between'>
+                        Xác nhận
+                        <i class='fas fa-arrow-right'></i>
+                    </button>
+                    <div class='resend-code text-muted'>
+                        Không nhận được mã?
+                        <span class='btn-resend text-danger'>Gửi lại</span>
+                    </div>
+                </div>
+                <div class='box-verify'>
+                    <i class='fas fa-check-circle'></i>
+                    <p></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

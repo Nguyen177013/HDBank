@@ -25,7 +25,7 @@
 
 .content-left {
   width: 40%;
-  background-color: #069a8e;
+  background-color: #5f8d4e;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px; }
 
@@ -69,7 +69,7 @@
   text-transform: uppercase;
   /* chữ gradient */
   font-weight: bold;
-  background-image: linear-gradient(to right bottom, #069a8e, #76e4af);
+  background-image: linear-gradient(to right bottom, #5f8d4e, #76e4af);
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text; }
@@ -92,13 +92,7 @@
   border: 1px solid #bcbcbc;
   border-radius: 5px;
   outline: none;
-  caret-color: #069a8e; }
-
-.icon-eye {
-  position: relative;
-  left: 327px;
-  bottom: 38px;
-  font-size: 1.7rem; }
+  caret-color: #5f8d4e; }
 
 .form-more {
   display: flex;
@@ -126,7 +120,7 @@
   cursor: pointer;
   transition: 0.2s; }
   .text-forget:hover {
-    color: #069a8e; }
+    color: #5f8d4e; }
 
 .btn-login {
   width: 100%;
@@ -134,10 +128,10 @@
   font-weight: 700;
   margin-top: 22px;
   color: white;
-  background-color: #069a8e; }
+  background-color: #5f8d4e; }
   .btn-login:hover {
     color: white;
-    background-color: #005555; }
+    background-color: #1a4a06; }
 
 .btn-pass {
   position: relative;
@@ -177,7 +171,7 @@
   border-radius: 5px; }
 
 .btn-pass a:after {
-  background-color: #005555;
+  background-color: #1a4a06;
   color: white;
   transform: rotateY(0deg) translateZ(20px);
   border: 3px solid white;
@@ -185,7 +179,7 @@
   background-color: transparent; }
 
 .btn-pass a:before {
-  color: #005555;
+  color: #1a4a06;
   background-color: white;
   transform: rotateX(90deg) translateZ(20px);
   border: none;

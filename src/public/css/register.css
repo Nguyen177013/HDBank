@@ -12,19 +12,13 @@
   background-color: white; }
 
 .register-mode .content-right {
-  background-color: #069a8e;
+  background-color: #5f8d4e;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px; }
 
 .register-mode .panel-content img {
   position: relative;
   top: -54px; }
-
-.icon-eye {
-  position: relative;
-  left: 327px;
-  bottom: 38px;
-  font-size: 1.7rem; }
 
 .form-action-register .title {
   margin-left: 52px; }
