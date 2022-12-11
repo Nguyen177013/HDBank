@@ -15,6 +15,10 @@
             <div class='container-content'>
                 <div class='mobile-verify go-right active-box'>
                     <div class='tranfer-item'>
+                        <div class='tranfer-title'>Tên đăng nhập :</div>
+                        <input type='text' class='tranfer-input' name='username' id='username' value='' required />
+                    </div>
+                    <div class='tranfer-item'>
                         <div class='tranfer-title'>Mật khẩu hiện tại :</div>
                         <input type='password' class='tranfer-input current-password' name='currentPass' id='currentPass' value='' required />
                         <span><ion-icon class='icon-eye eye-open-current hidden' name='eye-outline'></ion-icon></span>
@@ -82,15 +86,16 @@
 </div>
 
 <script>
-    // Chuyển tiền
-    function handleTranfer() {
+    // Đổi mật khẩu
+    function handleChangePass() {
         let formSubmit = document.querySelector('.form-action-change-password')
+        let username = document.querySelector('#username').value
         let currentPass = document.querySelector('#currentPass').value
         let newPass = document.querySelector('#newPass').value
-        let repeatNewPass = document.querySelector('#repeatNewPass').value
 
-        form.addEventListener('submit', (e) => {
+        formSubmit.addEventListener('submit', (e) => {
             e.preventDefault()
+            console.log(123)
 
             refreshToken().then((value) => {
                 // Get PublicKey
@@ -105,16 +110,14 @@
                     },
                     method: 'GET',
                 }).then((result) => {
-                    // Register
                     publicKey = result.data.key
                     encrypt.setPublicKey(publicKey)
-                    let data = JSON.stringify({
-                        curentPass: $('#curentPass').val(),
-                        password: $('#pass-register').val(),
-                    })
+                    let data = JSON.stringify({"username": username,"oldPass": currentPass,"newPass": newPass})
                     var credential = encrypt.encrypt(data)
+                    console.log(credential)
+                    // Change Password
                     $.ajax({
-                        url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/register',
+                        url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/change_password',
                         headers: {
                             accept: 'application/json',
                             'access-token': value,
@@ -125,10 +128,6 @@
                         data: JSON.stringify({
                             data: {
                                 credential: credential,
-                                email: email,
-                                fullName: fullname,
-                                identityNumber: cmnd,
-                                phone: phone,
                                 key: publicKey,
                             },
                             request: {
@@ -137,17 +136,10 @@
                             },
                         }),
                     }).then((result) => {
-                        if (result.response.responseMessage == 'User already exists') {
-                            alert('Người dùng này đã tồn tại. Vui lòng chọn tên đăng nhập khác !')
-                            window.location.href = '/user/register'
-                        } else {
-                            alert('Đăng ký tài khoản thành công')
-                            window.location.href = '/user/login'
-                        }
+                        res.json(result)
                     })
                 })
             })
-        
         })
     }
 
@@ -173,9 +165,12 @@
     // Handle animate
     btnContinue.addEventListener('click', () => {
         // xác thực mật khẩu mới
+        let username = document.querySelector('#username').value.trim()
         let currentPass = document.querySelector('#currentPass').value.trim()
         let newPass = document.querySelector('#newPass').value.trim()
         let repeatNewPass = document.querySelector('#repeatNewPass').value.trim()
+
+        console.log(username)
 
         if(currentPass == "" || newPass == "" || repeatNewPass == "") {
             alert("Vui lòng nhập đầy đủ thông tin !")
@@ -227,7 +222,7 @@
         let formSubmit = document.querySelector('.form-submit-tranfer')
 
         if (OTP === yourInputNumber) {
-            handleTranfer()
+            handleChangePass()
             
             icon.classList.add('fa-check-circle')
             icon.classList.remove('fa-times-circle')
