@@ -42,6 +42,15 @@ body::-webkit-scrollbar-thumb {
     background-color: $primary;
 }
 
+
+/* Hide step input number */
+
+// thay input bằng 1 class cụ thể
+// input::-webkit-outer-spin-button,
+// input::-webkit-inner-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
 // Public
 .hidden {
     display: none !important;
@@ -88,3 +97,4 @@ body::-webkit-scrollbar-thumb {
 @import 'sidebar';
 @import 'home';
 @import 'tranfer';
+@import 'changePass';

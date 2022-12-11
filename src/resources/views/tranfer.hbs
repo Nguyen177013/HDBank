@@ -10,48 +10,45 @@
             />
         </div>
         <div class='tranfer-right'>
-            <div class='tranfer-header'>Chuyển tiền</div>
+            <div class='tranfer-header'>Chuyển tiền <span class='id-account' hidden>{{token}}</span></div>
 
             <div class='container-content'>
                 <div class='mobile-verify go-right active-box'>
-                    <form class='form-action-tranfer' method='POST'>
-                        <div class='tranfer-item'>
-                            <div class='tranfer-title'>Tài khoản nguồn :</div>
-                            <input type='text' class='tranfer-input' value='{{token}}' disabled />
-                        </div>
-                        <div class='tranfer-item'>
-                            <div class='tranfer-title'>Tài khoản thụ hưởng :</div>
-                            <input type='text' class='tranfer-input' name='toAcct' id='toAcct' value='' required />
-                        </div>
-                        <div class='tranfer-item'>
-                            <div class='tranfer-title'>Số tiền :</div>
-                            <input
-                                type='number'
-                                class='tranfer-input'
-                                name='amount'
-                                id='amount'
-                                value=''
-                                min='10000'
-                                required
-                            />
-                        </div>
-                        <div class='tranfer-item'>
-                            <div class='tranfer-title'>Ghi chú :</div>
-                            <input
-                                type='text'
-                                class='tranfer-input'
-                                name='description'
-                                id='description'
-                                value=''
-                                required
-                            />
-                        </div>
-                        <div class='tranfer-button'>
-                            <button type='submit' class='btn btn-continue btn-confirm' onclick='handleTranfer()'>
-                                Hoàn tất
-                            </button>
-                        </div>
-                    </form>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Tài khoản thụ hưởng :</div>
+                        <input type='text' class='tranfer-input' name='toAcct' id='toAcct' value='' required />
+                    </div>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Số tiền :</div>
+                        <input
+                            type='number'
+                            class='tranfer-input'
+                            name='amount'
+                            id='amount'
+                            value=''
+                            min='10000'
+                            required
+                        />
+                    </div>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Ghi chú :</div>
+                        <input
+                            type='text'
+                            class='tranfer-input'
+                            name='description'
+                            id='description'
+                            value=''
+                            required
+                        />
+                    </div>
+                    <div class='tranfer-button'>
+                        <a href="#" data-bs-toggle='modal' data-bs-target='#list-friends'>
+                            <ion-icon class="icon-tranfer-people" name="people-outline"></ion-icon>
+                        </a>
+                        <button class='btn btn-continue btn-confirm'>
+                            Tiếp tục
+                        </button>
+                    </div>
                 </div>
                 <div class='otp-container go-right'>
                     <div class='nav d-flex align-items-center'>
@@ -62,7 +59,7 @@
                         <p>
                             Vui lòng nhập mã xác minh
                             <br />được gửi đến
-                            <span class='phone'>+8412345***</span>
+                            <span class='phone'>+84971521***</span>
                         </p>
                         <p>
                             Mã OTP sẽ hết hạn trong
@@ -76,10 +73,12 @@
                         <input type='text' maxlength='1' class='input' />
                     </div>
                     <span class='text-danger'></span>
-                    <button class='btn btn-verify d-flex align-items-center justify-content-between'>
-                        Xác nhận
-                        <i class='fas fa-arrow-right'></i>
-                    </button>
+                    <form class='form-submit-tranfer' method='POST'>
+                        <button class='btn btn-verify d-flex align-items-center justify-content-center'>
+                            Xác nhận
+                        </button>
+                    </form>
+
                     <div class='resend-code text-muted'>
                         Không nhận được mã?
                         <span class='btn-resend text-danger'>Gửi lại</span>
@@ -90,7 +89,247 @@
                     <p></p>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
+<!-- Modal Show Friends -->
+<div class='modal fade' id='list-friends' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-scrollable'>
+        <div class='modal-content wrapper-friend'>
+            <div class='modal-header'>
+                <h2 class='modal-title text-aligns-center' id='exampleModalLabel'>Danh Sách Bạn Bè</h2>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Họ tên</th>
+                        <th scope="col">Số tài khoản</th>
+                        <th scope="col">Chọn để chuyển</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <span><ion-icon class="icon-eye" name="trash-outline"></ion-icon></span>
+                        </th>
+                        <td>Mark</td>
+                        <td>045704070000405</td>
+                        <td>
+                            <span><ion-icon class="icon-eye" name="arrow-redo-outline"></ion-icon></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add data modal
+
+    // Chuyển tiền
+    function handleTranfer() {
+        let formSubmit = document.querySelector('.form-submit-tranfer')
+        let idAccount = document.querySelector('.id-account').innerHTML
+        let toAcct = document.querySelector('#toAcct').value
+        let amount = document.querySelector('#amount').value
+        let description = document.querySelector('#description').value
+
+        formSubmit.addEventListener('submit', (e) => {
+            e.preventDefault()
+            refreshToken().then((value) => {
+                console.log(value)
+                $.ajax({
+                    url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/transfer',
+                    headers: {
+                        accept: 'application/json',
+                        'access-token': value,
+                        'x-api-key': 'hutech_hackathon@123456',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    data: JSON.stringify({
+                        data: {
+                            amount: amount,
+                            description: description,
+                            fromAcct: idAccount,
+                            toAcct: toAcct,
+                        },
+                        request: {
+                            requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
+                            requestTime: '1667200102200',
+                        },
+                    }),
+                }).then((result) => {
+                    if (result.response.responseMessage == 'Format message invalid, toAcct invalid') {
+                        alert('Tài khoản người hưởng không tồn tại !')
+                    }
+                })
+            })
+        })
+    }
+
+    // Send OTP
+    const otpContainer = document.querySelector('.otp-container')
+    const mobileVerify = document.querySelector('.mobile-verify')
+    const boxVerify = document.querySelector('.box-verify')
+    const btnContinue = document.querySelector('.btn-continue')
+    const btnResend = document.querySelector('.btn-resend')
+    const btnVerify = document.querySelector('.btn-verify')
+    const btnBack = document.querySelector('.btn-back')
+    const phoneNumber = document.getElementById('phone-number')
+    const otpInput = document.querySelectorAll('.otp-input .input')
+    const containerContent = document.querySelector('.container-content')
+    const expireEle = document.querySelector('.expire')
+
+    // OTP
+    let expire = 60
+    let OTP
+    let countdown
+    let yourInputNumber = ''
+
+    // Handle animate
+    btnContinue.addEventListener('click', () => {
+
+        let toAcct = document.querySelector('#toAcct').value.trim()
+        let amount = document.querySelector('#amount').value.trim()
+        let description = document.querySelector('#description').value.trim()
+
+        if(toAcct == "" || amount == "" || description == "") {
+            alert("Vui lòng nhập đầy đủ thông tin !")
+        } else {
+            otpContainer.classList.remove('go-right')
+            mobileVerify.classList.remove('go-right')
+            OTP = randomOTP()
+            handleCountDown()
+            alert(`Mã xác thực của bạn là: ${OTP}`)
+        }
+    })
+
+    // back to set number screen
+    btnBack.addEventListener('click', () => {
+        otpContainer.classList.add('go-right')
+        otpContainer.classList.remove('active-box')
+        mobileVerify.classList.add('go-right', 'active-box')
+    })
+
+    // handle OTP input
+    otpInput.forEach((input) => {
+        input.addEventListener('keyup', (e) => {
+            const element = e.target
+
+            if (element.value.match(/\d/)) {
+                yourInputNumber += element.value
+                alertText('.otp-container .text-danger', '')
+
+                if (element.nextElementSibling) {
+                    element.nextElementSibling.focus()
+                }
+            } else {
+                alertText('.otp-container .text-danger', 'Enter a number in each field')
+            }
+        })
+    })
+
+    // handle verify button
+    btnVerify.addEventListener('click', () => {
+        const icon = boxVerify.querySelector('.fas')
+        let formSubmit = document.querySelector('.form-submit-tranfer')
+
+        if (OTP === yourInputNumber) {
+            handleTranfer()
+            icon.classList.add('fa-check-circle')
+            icon.classList.remove('fa-times-circle')
+            boxVerify.querySelector('p').innerHTML = `
+                    Chuyển khoản thành công 👌 <br/> Bạn có muốn thực hiện giao dịch khác ?
+                    <br/>
+                    <div class='btn-wrap-confirm'>
+                        <a href='/tranfer'>
+                            <div class='btn btn-success'>Có</div>
+                        </a>
+                        <a href='/'>
+                            <div class='btn btn-danger'>Không</div>
+                        </a>
+                    </div>
+                    `
+            setTimeout(() => {
+                window.location.href = '/'
+            }, 5000)
+        } else {
+            formSubmit.addEventListener('submit', (e) => {
+                e.preventDefault()
+            })
+            icon.classList.remove('fa-check-circle')
+            icon.classList.add('fa-times-circle')
+            boxVerify.querySelector('p').innerHTML = `
+            Xác minh thất bại
+            <br/>
+            <span class='text-muted'>Vui lòng <span class='btn-return text-dark'>thử lại</span></span>
+            `
+        }
+        boxVerify.classList.add('active')
+    })
+
+    // handle btn return
+    containerContent.addEventListener('click', (e) => {
+        const element = e.target
+        if (element.classList.contains('btn-return')) {
+            boxVerify.classList.remove('active')
+
+            activeStateOTP()
+        }
+    })
+
+    // handle btn request again
+    btnResend.addEventListener('click', activeStateOTP)
+
+    function handleCountDown() {
+        countdown = setInterval(() => {
+            expire--
+            if (expire === 0) {
+                clearInterval(countdown)
+                OTP = null
+                console.log(OTP)
+            }
+            expireEle.textContent = expire < 10 ? '0' + expire + 's' : expire + 's'
+        }, 1000)
+    }
+
+    function alertText(element, text) {
+        document.querySelector(`${element}`).textContent = text
+    }
+
+    function randomOTP() {
+        let random = ''
+        Array.from({ length: 4 }, () => {
+            random += Math.floor(Math.random() * 10).toString()
+        })
+        return random
+    }
+
+    function resetStateOTP() {
+        clearInterval(countdown)
+        expire = 60
+        OTP = null
+        yourInputNumber = ''
+
+        otpInput.forEach((input) => {
+            input.value = ''
+        })
+    }
+
+    function formatPhoneNumber(number) {
+        return number.toString().slice(0, 7) + '***'
+    }
+
+    function activeStateOTP() {
+        resetStateOTP()
+
+        OTP = randomOTP()
+        handleCountDown()
+        alert(`Mã xác thực của bạn là: ${OTP}`)
+    }
+</script>

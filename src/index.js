@@ -93,6 +93,26 @@ app.get(
     },
 )
 
+// Get Change Password
+app.get(
+    '/changePass',
+    (req, res, next) => {
+        try {
+            token = req.cookies.token
+            if (token) {
+                next()
+            } else {
+                res.render('login')
+            }
+        } catch (error) {
+            res.render('login')
+        }
+    },
+    (req, res, next) => {
+        res.render('changePass', { index: 3, token: token })
+    },
+)
+
 // Log out
 app.get('/deleteCookie', function(req, res, next) {
     let cookie = req.cookies
@@ -106,11 +126,10 @@ app.get('/deleteCookie', function(req, res, next) {
 })
 
 // SMS
-
 const Nexmo = require('nexmo')
 const nexmo = new Nexmo({
-    apiKey: '098b8412',
-    apiSecret: 'DiE1pV1p3R0vPutR',
+    apiKey: 'e5a8ec1d',
+    apiSecret: 'gJdCJWxBjQtAMs0f',
 })
 
 app.post('/sendsms', function(req, res) {
@@ -123,7 +142,6 @@ app.post('/sendsms', function(req, res) {
             console.log(err)
         } else {
             if (responseData.messages[0]['status'] === '0') {
-                // console.log('Message sent successfully.')
                 res.json(responseData)
             } else {
                 res.json(`Message failed with error: ${responseData.messages[0]['error-text']}`)

@@ -1,12 +1,19 @@
 class UserController {
-    // [GET] /login
+    // [GET] /user/login
     login(req, res, next) {
+        // let token = req.cookies.token
+        // res.json(token)
         res.render('login')
     }
 
-    // [GET] /register
+    // [GET] /user/register
     register(req, res, next) {
         res.render('register')
+    }
+
+    // [GET] /user/changePass
+    changePass(req, res, next) {
+        res.render('changePass')
     }
 }
 

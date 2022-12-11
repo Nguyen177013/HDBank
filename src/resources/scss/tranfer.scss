@@ -32,7 +32,6 @@
     text-align: center;
     text-transform: capitalize;
     font-family: 'Mitr', sans-serif;
-    text-shadow: 1px 1px 2px #1c675830;
 }
 
 .tranfer-item {
@@ -75,7 +74,13 @@
     margin-top: 36px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
+
+.icon-tranfer-people {
+    font-size: 3.4rem;
+    color: $primary;
+    cursor: pointer;
 }
 
 .btn-confirm {
@@ -96,7 +101,7 @@
 
 .btn-verify,
 .btn-continue {
-    width: 200px;
+    width: 180px;
     color: #000;
     border-radius: $br5;
     background-color: $yellow;
@@ -104,6 +109,11 @@
     padding-right: 30px;
     font-weight: 500;
     margin-bottom: 15px;
+    margin-top: 12px;
+    &:hover {
+        color: #fff;
+        background-color: $red;
+    }
 }
 
 .container-content {
@@ -130,6 +140,7 @@
 
 .otp-container,
 .mobile-verify {
+    font-size: 1.7rem;
     z-index: 10;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
@@ -142,12 +153,14 @@
 
 .otp-container .nav p,
 .mobile-verify .nav p {
+    font-size: 2rem;
     font-weight: 500;
 }
 
 .otp-container .text p,
 .mobile-verify .text p {
-    color: rgba(61, 61, 61, 0.8);
+    font-size: 1.7rem;
+    color: $red;
 }
 
 .mobile-verify {
@@ -197,6 +210,7 @@
 
 .otp-container .nav i {
     cursor: pointer;
+    font-size: 2rem;
 }
 
 .otp-container .nav i:hover {
@@ -243,6 +257,7 @@
 
 .otp-container .text-danger {
     margin-bottom: 10px;
+    color: $red;
 }
 
 .mobile-verify.go-right {
@@ -259,7 +274,10 @@
 
 .box-verify {
     backface-visibility: hidden;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
     opacity: 0;
     visibility: hidden;
     z-index: 15;
@@ -273,15 +291,14 @@
 }
 
 .box-verify p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     margin-top: 30px;
     text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.8rem;
     font-weight: 500;
-}
-
-.box-verify p span {
-    display: inline-block;
-    padding-top: 10px;
 }
 
 .box-verify .btn-return {
@@ -295,4 +312,27 @@
     transform: scale(1);
 }
 
-//
+// Button Wrap
+.btn-wrap-confirm {
+    margin-top: 15px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .btn {
+        width: 80px;
+    }
+}
+
+.wrapper-friend {
+    padding: 25px 0px;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    padding-left: 12px !important;
+}

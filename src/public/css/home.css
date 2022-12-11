@@ -21,10 +21,10 @@
 .home-support {
   position: absolute;
   top: -5px;
-  left: -350px;
-  color: #5f8d4e; }
+  left: -360px;
+  color: #158767; }
   .home-support ion-icon {
-    font-size: 3.2rem; }
+    font-size: 2.7rem; }
 
 .button-copy {
   position: relative;
@@ -34,7 +34,7 @@
   .button-copy ion-icon {
     font-size: 2rem; }
     .button-copy ion-icon:hover {
-      color: #5f8d4e; }
+      color: #158767; }
 
 .icon-eye,
 .icon-qr {
@@ -43,7 +43,7 @@
   color: #393939; }
   .icon-eye:hover,
   .icon-qr:hover {
-    color: #5f8d4e; }
+    color: #158767; }
 
 .icon-qr {
   margin-left: 22px;

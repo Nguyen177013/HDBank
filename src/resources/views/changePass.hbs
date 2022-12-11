@@ -1,0 +1,347 @@
+<div class='container-left'>
+    {{> sidebar }}
+</div>
+<div class='container-right'>
+    <div class='tranfer'>
+        <div class='tranfer-left'>
+            <img
+                src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
+                alt=''
+            />
+        </div>
+        <div class='tranfer-right'>
+            <div class='tranfer-header'>Đổi mật khẩu</div>
+
+            <div class='container-content'>
+                <div class='mobile-verify go-right active-box'>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Mật khẩu hiện tại :</div>
+                        <input type='password' class='tranfer-input current-password' name='currentPass' id='currentPass' value='' required />
+                        <span><ion-icon class='icon-eye eye-open-current hidden' name='eye-outline'></ion-icon></span>
+                        <span><ion-icon class='icon-eye eye-close-current' name='eye-off-outline'></ion-icon></span>
+                    </div>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Mật khẩu mới :</div>
+                        <input type='password' class='tranfer-input new-password' name='newPass' id='newPass' value='' required />
+                        <span><ion-icon class='icon-eye eye-open-new hidden' name='eye-outline'></ion-icon></span>
+                        <span><ion-icon class='icon-eye eye-close-new' name='eye-off-outline'></ion-icon></span>
+                    </div>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Nhập lại mật khẩu :</div>
+                        <input type='password' class='tranfer-input' name='repeatNewPass' id='repeatNewPass' value='' required />
+                    </div>
+                    <div class='tranfer-button'>
+                        <button class='btn btn-continue btn-confirm'>
+                            Tiếp tục
+                        </button>
+                    </div>
+                </div>
+                <div class='otp-container go-right'>
+                    <div class='nav d-flex align-items-center'>
+                        <i class='btn-back fas fa-arrow-left'></i>
+                        <p>Mã xác nhận</p>
+                    </div>
+                    <div class='text'>
+                        <p>
+                            Vui lòng nhập mã xác minh
+                            <br />được gửi đến
+                            <span class='phone'>+84971521***</span>
+                        </p>
+                        <p>
+                            Mã OTP sẽ hết hạn trong
+                            <span class='expire text-dark'>60s</span>
+                        </p>
+                    </div>
+                    <div class='otp-input d-flex'>
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                        <input type='text' maxlength='1' class='input' />
+                    </div>
+                    <span class='text-danger'></span>
+                    <form class='form-action-change-password' method='POST'> 
+                        <button class='btn btn-verify d-flex align-items-center justify-content-between'>
+                            Xác nhận
+                            <i class='fas fa-arrow-right'></i>
+                        </button>
+                    </form>
+
+                    <div class='resend-code text-muted'>
+                        Không nhận được mã?
+                        <span class='btn-resend text-danger'>Gửi lại</span>
+                    </div>
+                </div>
+                <div class='box-verify'>
+                    <i class='fas fa-check-circle'></i>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Ẩn hiện currentPass
+    const currentPass = document.querySelector('.current-password')
+    const eyeOpenCurrent= document.querySelector('.eye-open-current')
+    const eyeCloseCurrent = document.querySelector('.eye-close-current')
+
+    eyeOpenCurrent.addEventListener('click', function() {
+        eyeOpenCurrent.classList.add('hidden')
+        eyeCloseCurrent.classList.remove('hidden')
+        currentPass.setAttribute('type', 'password')
+    })
+
+    eyeCloseCurrent.addEventListener('click', function() {
+        eyeOpenCurrent.classList.remove('hidden')
+        eyeCloseCurrent.classList.add('hidden')
+        currentPass.setAttribute('type', 'text')
+    })
+
+    // Ẩn hiện newPass
+    const newPass = document.querySelector('.new-password')
+    const eyeOpenNew= document.querySelector('.eye-open-new')
+    const eyeCloseNew = document.querySelector('.eye-close-new')
+
+    eyeOpenNew.addEventListener('click', function() {
+        eyeOpenNew.classList.add('hidden')
+        eyeCloseNew.classList.remove('hidden')
+        newPass.setAttribute('type', 'password')
+    })
+
+    eyeCloseNew.addEventListener('click', function() {
+        eyeOpenNew.classList.remove('hidden')
+        eyeCloseNew.classList.add('hidden')
+        newPass.setAttribute('type', 'text')
+    })
+
+    // Chuyển tiền
+    function handleTranfer() {
+        let formSubmit = document.querySelector('.form-action-change-password')
+        let currentPass = document.querySelector('#currentPass').value
+        let newPass = document.querySelector('#newPass').value
+        let repeatNewPass = document.querySelector('#repeatNewPass').value
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            refreshToken().then((value) => {
+                // Get PublicKey
+                let publicKey
+                $.ajax({
+                    url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/get_key',
+                    headers: {
+                        accept: 'application/json',
+                        'access-token': value,
+                        'x-api-key': 'hutech_hackathon@123456',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'GET',
+                }).then((result) => {
+                    // Register
+                    publicKey = result.data.key
+                    encrypt.setPublicKey(publicKey)
+                    let data = JSON.stringify({
+                        curentPass: $('#curentPass').val(),
+                        password: $('#pass-register').val(),
+                    })
+                    var credential = encrypt.encrypt(data)
+                    $.ajax({
+                        url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/register',
+                        headers: {
+                            accept: 'application/json',
+                            'access-token': value,
+                            'x-api-key': 'hutech_hackathon@123456',
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                        data: JSON.stringify({
+                            data: {
+                                credential: credential,
+                                email: email,
+                                fullName: fullname,
+                                identityNumber: cmnd,
+                                phone: phone,
+                                key: publicKey,
+                            },
+                            request: {
+                                requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
+                                requestTime: '1667200102200',
+                            },
+                        }),
+                    }).then((result) => {
+                        if (result.response.responseMessage == 'User already exists') {
+                            alert('Người dùng này đã tồn tại. Vui lòng chọn tên đăng nhập khác !')
+                            window.location.href = '/user/register'
+                        } else {
+                            alert('Đăng ký tài khoản thành công')
+                            window.location.href = '/user/login'
+                        }
+                    })
+                })
+            })
+        
+        })
+    }
+
+    // Send OTP
+    const otpContainer = document.querySelector('.otp-container')
+    const mobileVerify = document.querySelector('.mobile-verify')
+    const boxVerify = document.querySelector('.box-verify')
+    const btnContinue = document.querySelector('.btn-continue')
+    const btnResend = document.querySelector('.btn-resend')
+    const btnVerify = document.querySelector('.btn-verify')
+    const btnBack = document.querySelector('.btn-back')
+    const phoneNumber = document.getElementById('phone-number')
+    const otpInput = document.querySelectorAll('.otp-input .input')
+    const containerContent = document.querySelector('.container-content')
+    const expireEle = document.querySelector('.expire')
+
+    // OTP
+    let expire = 60
+    let OTP
+    let countdown
+    let yourInputNumber = ''
+
+    // Handle animate
+    btnContinue.addEventListener('click', () => {
+        // xác thực mật khẩu mới
+        let currentPass = document.querySelector('#currentPass').value.trim()
+        let newPass = document.querySelector('#newPass').value.trim()
+        let repeatNewPass = document.querySelector('#repeatNewPass').value.trim()
+
+        if(currentPass == "" || newPass == "" || repeatNewPass == "") {
+            alert("Vui lòng nhập đầy đủ thông tin !")
+        } else {
+            if(newPass === repeatNewPass) {
+                if(newPass === currentPass) {
+                    alert("Mật khẩu mới trùng với mật khẩu hiện tại. Vui lòng chọn mật khẩu khác !")
+                } else {
+                    otpContainer.classList.remove('go-right')
+                    mobileVerify.classList.remove('go-right')
+                    OTP = randomOTP()
+                    handleCountDown()
+                    alert(`Mã xác thực của bạn là: ${OTP}`)
+                }
+            } else {
+                alert("Mật khẩu chưa trùng khớp !")
+            }
+        }
+    })
+
+    // back to set number screen
+    btnBack.addEventListener('click', () => {
+        otpContainer.classList.add('go-right')
+        otpContainer.classList.remove('active-box')
+        mobileVerify.classList.add('go-right', 'active-box')
+    })
+
+    // handle OTP input
+    otpInput.forEach((input) => {
+        input.addEventListener('keyup', (e) => {
+            const element = e.target
+
+            if (element.value.match(/\d/)) {
+                yourInputNumber += element.value
+                alertText('.otp-container .text-danger', '')
+
+                if (element.nextElementSibling) {
+                    element.nextElementSibling.focus()
+                }
+            } else {
+                alertText('.otp-container .text-danger', 'Enter a number in each field')
+            }
+        })
+    })
+
+    // handle verify button
+    btnVerify.addEventListener('click', () => {
+        const icon = boxVerify.querySelector('.fas')
+        let formSubmit = document.querySelector('.form-submit-tranfer')
+
+        if (OTP === yourInputNumber) {
+            handleTranfer()
+            
+            icon.classList.add('fa-check-circle')
+            icon.classList.remove('fa-times-circle')
+            boxVerify.querySelector('p').innerHTML = `
+                    Đổi mật khẩu thành công 🤗 <br/> 
+                    `
+            setTimeout(() => {
+                window.location.href = '/'
+            }, 3000)
+        } else {
+            formSubmit.addEventListener('submit', (e) => {
+                e.preventDefault()
+            })
+            icon.classList.remove('fa-check-circle')
+            icon.classList.add('fa-times-circle')
+            boxVerify.querySelector('p').innerHTML = `
+            Xác minh thất bại
+            <br/>
+            <span class='text-muted'>Vui lòng <span class='btn-return text-dark'>thử lại</span></span>
+            `
+        }
+        boxVerify.classList.add('active')
+    })
+
+    // handle btn return
+    containerContent.addEventListener('click', (e) => {
+        const element = e.target
+        if (element.classList.contains('btn-return')) {
+            boxVerify.classList.remove('active')
+
+            activeStateOTP()
+        }
+    })
+
+    // handle btn request again
+    btnResend.addEventListener('click', activeStateOTP)
+
+    function handleCountDown() {
+        countdown = setInterval(() => {
+            expire--
+            if (expire === 0) {
+                clearInterval(countdown)
+                OTP = null
+                console.log(OTP)
+            }
+            expireEle.textContent = expire < 10 ? '0' + expire + 's' : expire + 's'
+        }, 1000)
+    }
+
+    function alertText(element, text) {
+        document.querySelector(`${element}`).textContent = text
+    }
+
+    function randomOTP() {
+        let random = ''
+        Array.from({ length: 4 }, () => {
+            random += Math.floor(Math.random() * 10).toString()
+        })
+        return random
+    }
+
+    function resetStateOTP() {
+        clearInterval(countdown)
+        expire = 60
+        OTP = null
+        yourInputNumber = ''
+
+        otpInput.forEach((input) => {
+            input.value = ''
+        })
+    }
+
+    function formatPhoneNumber(number) {
+        return number.toString().slice(0, 7) + '***'
+    }
+
+    function activeStateOTP() {
+        resetStateOTP()
+
+        OTP = randomOTP()
+        handleCountDown()
+        alert(`Mã xác thực của bạn là: ${OTP}`)
+    }
+</script>

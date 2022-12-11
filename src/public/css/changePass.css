@@ -1,0 +1,8 @@
+.eye-open-current,
+.eye-close-current,
+.eye-open-new,
+.eye-close-new {
+  position: relative;
+  top: 4px;
+  left: -28px;
+  margin-right: -32px; }

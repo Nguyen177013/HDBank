@@ -8,7 +8,7 @@
   top: 0;
   overflow: hidden;
   transition: 0.8s;
-  background-color: #5f8d4e; }
+  background-color: #158767; }
 
 .sidebar.active {
   width: 73px; }
@@ -49,7 +49,7 @@
 
 .nav-item:hover .nav-item-link,
 .nav-item.active .nav-item-link {
-  color: #5f8d4e; }
+  color: #158767; }
 
 .nav-item-link {
   color: white;
