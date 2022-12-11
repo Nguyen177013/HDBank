@@ -272,12 +272,13 @@
     width: 80px; }
 
 .wrapper-friend {
-  padding: 25px 0px; }
+  padding: 25px 0px 4px; }
 
-tbody,
-td,
-tfoot,
-th,
-thead,
-tr {
-  padding-left: 12px !important; }
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #158767; }
+
+.table > :not(caption) > * > * {
+  padding: 8px 14px;
+  cursor: pointer; }

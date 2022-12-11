@@ -107,7 +107,6 @@ function handleLogin() {
                         window.location.href = '/'
                     } else {
                         alert('Tài khoản hoặc mật khẩu chưa chính xác !!!')
-                        window.location.href = '/user/login'
                     }
                 })
             })

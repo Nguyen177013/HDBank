@@ -113,6 +113,26 @@ app.get(
     },
 )
 
+// Mua thẻ cào
+app.get(
+    '/buyCard',
+    (req, res, next) => {
+        try {
+            token = req.cookies.token
+            if (token) {
+                next()
+            } else {
+                res.render('login')
+            }
+        } catch (error) {
+            res.render('login')
+        }
+    },
+    (req, res, next) => {
+        res.render('buyCard', { index: 2, token: token })
+    },
+)
+
 // Log out
 app.get('/deleteCookie', function(req, res, next) {
     let cookie = req.cookies

@@ -4,31 +4,46 @@
 <div class='container-right'>
     <div class='tranfer'>
         <div class='tranfer-left'>
-            <img
-                src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
+            <img style="top: 62px;"
+                src='https://uploads.nguoidothi.net.vn/content/ee652e33-b7af-4118-9f03-e745c08648f8.jpg'
                 alt=''
             />
         </div>
         <div class='tranfer-right'>
-            <div class='tranfer-header'>Đổi mật khẩu</div>
+            <div class='tranfer-header'>Mua mã thẻ <span class='id-account' hidden>{{token}}</span></div>
 
             <div class='container-content'>
                 <div class='mobile-verify go-right active-box'>
                     <div class='tranfer-item'>
-                        <div class='tranfer-title'>Mật khẩu hiện tại :</div>
-                        <input type='password' class='tranfer-input current-password' name='currentPass' id='currentPass' value='' required />
-                        <span><ion-icon class='icon-eye eye-open-current hidden' name='eye-outline'></ion-icon></span>
-                        <span><ion-icon class='icon-eye eye-close-current' name='eye-off-outline'></ion-icon></span>
+                        <div class='tranfer-title'>Nhà mạng :</div>
+                        <select id='type-supplier' name='type-supplier' class='tranfer-input' required>
+                            <option value=''>-- Chọn nhà mạng --</option>
+                            <option name='viettel'>Viettel</option>
+                            <option name='mobifone'>Mobifone</option>
+                            <option name='vinafone'>Vinafone</option>
+                        </select>
                     </div>
                     <div class='tranfer-item'>
-                        <div class='tranfer-title'>Mật khẩu mới :</div>
-                        <input type='password' class='tranfer-input new-password' name='newPass' id='newPass' value='' required />
-                        <span><ion-icon class='icon-eye eye-open-new hidden' name='eye-outline'></ion-icon></span>
-                        <span><ion-icon class='icon-eye eye-close-new' name='eye-off-outline'></ion-icon></span>
+                        <div class='tranfer-title'>Mệnh giá :</div>
+                        <select id='type-price' name='type-price' class='tranfer-input' required>
+                            <option value=''>-- Chọn mệnh giá --</option>
+                            <option name='ten'>10000</option>
+                            <option name='twenty'>20000</option>
+                            <option name='fifty'>50000</option>
+                        </select>
                     </div>
                     <div class='tranfer-item'>
-                        <div class='tranfer-title'>Nhập lại mật khẩu :</div>
-                        <input type='password' class='tranfer-input' name='repeatNewPass' id='repeatNewPass' value='' required />
+                        <div class='tranfer-title'>Số lượng :</div>
+                        <input  
+                            type='number'
+                            class='tranfer-input'
+                            id='quantity'
+                            name='quantity'
+                            value='1'
+                            min='1'
+                            required
+                            disabled
+                            />
                     </div>
                     <div class='tranfer-button'>
                         <span></span>
@@ -60,7 +75,7 @@
                         <input type='text' maxlength='1' class='input' />
                     </div>
                     <span class='text-danger'></span>
-                    <form class='form-action-change-password' method='POST'> 
+                    <form class='form-action-buy-card' method='POST'> 
                         <button class='btn btn-verify d-flex align-items-center justify-content-between'>
                             Xác nhận
                             <i class='fas fa-arrow-right'></i>
@@ -82,72 +97,51 @@
 </div>
 
 <script>
-    // Chuyển tiền
-    function handleTranfer() {
-        let formSubmit = document.querySelector('.form-action-change-password')
-        let currentPass = document.querySelector('#currentPass').value
-        let newPass = document.querySelector('#newPass').value
-        let repeatNewPass = document.querySelector('#repeatNewPass').value
+    // Copy id account
+    function handleCopy() {
+        var copyText = document.getElementById('inputAccount')
+        copyText.select()
+        navigator.clipboard.writeText(copyText.value)
+    }
+    // Mua thẻ cào
+    function handleBuyCard() {
+        let formSubmit = document.querySelector('.form-action-buy-card')
+        let typeSupplier = document.querySelector('#type-supplier').value
+        let typePrice = document.querySelector('#type-price').value
+        let quantity = document.querySelector('#quantity').value
+        let myIdAcct = document.querySelector('.id-account').innerHTML
+        let idToAcct = "004704070000125"
 
-        form.addEventListener('submit', (e) => {
+        formSubmit.addEventListener('submit', (e) => {
             e.preventDefault()
-
             refreshToken().then((value) => {
-                // Get PublicKey
-                let publicKey
                 $.ajax({
-                    url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/get_key',
+                    url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/transfer',
                     headers: {
                         accept: 'application/json',
                         'access-token': value,
                         'x-api-key': 'hutech_hackathon@123456',
                         'Content-Type': 'application/json',
                     },
-                    method: 'GET',
-                }).then((result) => {
-                    // Register
-                    publicKey = result.data.key
-                    encrypt.setPublicKey(publicKey)
-                    let data = JSON.stringify({
-                        curentPass: $('#curentPass').val(),
-                        password: $('#pass-register').val(),
-                    })
-                    var credential = encrypt.encrypt(data)
-                    $.ajax({
-                        url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/register',
-                        headers: {
-                            accept: 'application/json',
-                            'access-token': value,
-                            'x-api-key': 'hutech_hackathon@123456',
-                            'Content-Type': 'application/json',
+                    method: 'POST',
+                    data: JSON.stringify({
+                        data: {
+                            amount: typePrice,
+                            description: "description",
+                            fromAcct: myIdAcct,
+                            toAcct: idToAcct,
                         },
-                        method: 'POST',
-                        data: JSON.stringify({
-                            data: {
-                                credential: credential,
-                                email: email,
-                                fullName: fullname,
-                                identityNumber: cmnd,
-                                phone: phone,
-                                key: publicKey,
-                            },
-                            request: {
-                                requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
-                                requestTime: '1667200102200',
-                            },
-                        }),
-                    }).then((result) => {
-                        if (result.response.responseMessage == 'User already exists') {
-                            alert('Người dùng này đã tồn tại. Vui lòng chọn tên đăng nhập khác !')
-                            window.location.href = '/user/register'
-                        } else {
-                            alert('Đăng ký tài khoản thành công')
-                            window.location.href = '/user/login'
-                        }
-                    })
+                        request: {
+                            requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
+                            requestTime: '1667200102200',
+                        },
+                    }),
+                }).then((result) => {
+                    if (result.response.responseMessage == 'Format message invalid, toAcct invalid') {
+                        alert('Tài khoản người hưởng không tồn tại !')
+                    }
                 })
             })
-        
         })
     }
 
@@ -172,27 +166,18 @@
 
     // Handle animate
     btnContinue.addEventListener('click', () => {
-        // xác thực mật khẩu mới
-        let currentPass = document.querySelector('#currentPass').value.trim()
-        let newPass = document.querySelector('#newPass').value.trim()
-        let repeatNewPass = document.querySelector('#repeatNewPass').value.trim()
+        let typeSupplier = document.querySelector('#type-supplier').value
+        let typePrice = document.querySelector('#type-price').value
+        let quantity = document.querySelector('#quantity').value
 
-        if(currentPass == "" || newPass == "" || repeatNewPass == "") {
-            alert("Vui lòng nhập đầy đủ thông tin !")
+        if(typeSupplier == "" || typePrice == "") {
+            alert("Vui lòng chọn đầy đủ thông tin !")
         } else {
-            if(newPass === repeatNewPass) {
-                if(newPass === currentPass) {
-                    alert("Mật khẩu mới trùng với mật khẩu hiện tại. Vui lòng chọn mật khẩu khác !")
-                } else {
-                    otpContainer.classList.remove('go-right')
-                    mobileVerify.classList.remove('go-right')
-                    OTP = randomOTP()
-                    handleCountDown()
-                    alert(`Mã xác thực của bạn là: ${OTP}`)
-                }
-            } else {
-                alert("Mật khẩu chưa trùng khớp !")
-            }
+            otpContainer.classList.remove('go-right')
+            mobileVerify.classList.remove('go-right')
+            OTP = randomOTP()
+            handleCountDown()
+            alert(`Mã xác thực của bạn là: ${OTP}`)
         }
     })
 
@@ -227,16 +212,46 @@
         let formSubmit = document.querySelector('.form-submit-tranfer')
 
         if (OTP === yourInputNumber) {
-            handleTranfer()
-            
-            icon.classList.add('fa-check-circle')
-            icon.classList.remove('fa-times-circle')
-            boxVerify.querySelector('p').innerHTML = `
-                    Đổi mật khẩu thành công 🤗 <br/> 
+            handleBuyCard()
+
+            let apiKeyXata = 'xau_NFju5b34TYFnTVeex0PP51gJ1xGDoFmG0'
+            $.ajax({
+                url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/cards/query',
+                headers: {
+                    Authorization: 'Bearer' + ' ' + apiKeyXata,
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                data: JSON.stringify({
+                    page: { size: 10 },
+                }),
+            }).then((result) => {
+                const data = result.records
+                let typePrice = document.querySelector('#type-price').value
+                function checkState(item) {
+                if (item.state == false && item.price == typePrice)
+                    return item;
+                }
+
+                let newArr = data.find(checkState);
+                let code = newArr.codeValue
+                icon.classList.add('fa-check-circle')
+                icon.classList.remove('fa-times-circle')
+                boxVerify.querySelector('p').innerHTML = `
+                    Mua mã thẻ thành công 🤗 <br/>
+                    <li class='account-item'>
+                        <h2 class='account-item-header'>Số tài khoản:</h2>
+                        <h2 class='account-des'>${code}</h2>
+                        <input hidden type='text' value=${code} id='inputAccount' />
+                        <span class='button-copy' onclick='handleCopy()'><ion-icon name='copy-outline'></ion-icon></span>
+                        <span>
+                            <a href='tel:${code}' class="icon-send">
+                                <ion-icon name="add-circle-outline"></ion-icon>
+                            </a>
+                        </span>
+                    </li>
                     `
-            setTimeout(() => {
-                window.location.href = '/'
-            }, 8000)
+            })
         } else {
             formSubmit.addEventListener('submit', (e) => {
                 e.preventDefault()

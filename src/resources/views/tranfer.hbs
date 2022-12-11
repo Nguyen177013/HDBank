@@ -16,7 +16,7 @@
                 <div class='mobile-verify go-right active-box'>
                     <div class='tranfer-item'>
                         <div class='tranfer-title'>Tài khoản thụ hưởng :</div>
-                        <input type='text' class='tranfer-input' name='toAcct' id='toAcct' value='' required />
+                        <input type='text' class='tranfer-input tranfer-input-to-account' name='toAcct' id='toAcct' value='' required />
                     </div>
                     <div class='tranfer-item'>
                         <div class='tranfer-title'>Số tiền :</div>
@@ -107,20 +107,11 @@
                         <th scope="col"></th>
                         <th scope="col">Họ tên</th>
                         <th scope="col">Số tài khoản</th>
-                        <th scope="col">Chọn để chuyển</th>
+                        <th scope="col">Chọn</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">
-                            <span><ion-icon class="icon-eye" name="trash-outline"></ion-icon></span>
-                        </th>
-                        <td>Mark</td>
-                        <td>045704070000405</td>
-                        <td>
-                            <span><ion-icon class="icon-eye" name="arrow-redo-outline"></ion-icon></span>
-                        </td>
-                    </tr>
+                <tbody class="friend-item">
+                    {{!-- AJAX --}}
                 </tbody>
             </table>
         </div>
@@ -128,8 +119,6 @@
 </div>
 
 <script>
-    // Add data modal
-
     // Chuyển tiền
     function handleTranfer() {
         let formSubmit = document.querySelector('.form-submit-tranfer')
@@ -257,7 +246,7 @@
                     `
             setTimeout(() => {
                 window.location.href = '/'
-            }, 5000)
+            }, 8000)
         } else {
             formSubmit.addEventListener('submit', (e) => {
                 e.preventDefault()
