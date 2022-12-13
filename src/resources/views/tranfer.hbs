@@ -94,14 +94,14 @@
 </div>
 
 <!-- Modal Show Friends -->
-<div class='modal fade' id='list-friends' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-    <div class='modal-dialog modal-dialog-scrollable'>
+<div class='modal fade' id='list-friends' tabindex='-1' aria-labelledby='exampleModalToggleLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-dialog-centered'>
         <div class='modal-content wrapper-friend'>
             <div class='modal-header'>
-                <h2 class='modal-title text-aligns-center' id='exampleModalLabel'>Danh Sách Bạn Bè</h2>
+                <h2 class='modal-title text-aligns-center'>Danh Sách Người Nhận</h2>
                 <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
-            <table class="table table-hover">
+            <table class="table table-hover table-borderless">
                 <thead>
                     <tr>
                         <th scope="col"></th>
@@ -114,51 +114,21 @@
                     {{!-- AJAX --}}
                 </tbody>
             </table>
+            <div class="modal-footer">
+                <a href="/createFriend">
+                    <button class="btn btn-success">Thêm người nhận</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
+<form class='form-action-delete' method='POST'></form>
+
 <script>
     // Chuyển tiền
     function handleTranfer() {
-        let formSubmit = document.querySelector('.form-submit-tranfer')
-        let idAccount = document.querySelector('.id-account').innerHTML
-        let toAcct = document.querySelector('#toAcct').value
-        let amount = document.querySelector('#amount').value
-        let description = document.querySelector('#description').value
-
-        formSubmit.addEventListener('submit', (e) => {
-            e.preventDefault()
-            refreshToken().then((value) => {
-                console.log(value)
-                $.ajax({
-                    url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/transfer',
-                    headers: {
-                        accept: 'application/json',
-                        'access-token': value,
-                        'x-api-key': 'hutech_hackathon@123456',
-                        'Content-Type': 'application/json',
-                    },
-                    method: 'POST',
-                    data: JSON.stringify({
-                        data: {
-                            amount: amount,
-                            description: description,
-                            fromAcct: idAccount,
-                            toAcct: toAcct,
-                        },
-                        request: {
-                            requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
-                            requestTime: '1667200102200',
-                        },
-                    }),
-                }).then((result) => {
-                    if (result.response.responseMessage == 'Format message invalid, toAcct invalid') {
-                        alert('Tài khoản người hưởng không tồn tại !')
-                    }
-                })
-            })
-        })
+        
     }
 
     // Send OTP
@@ -175,7 +145,7 @@
     const expireEle = document.querySelector('.expire')
 
     // OTP
-    let expire = 60
+    let expire = 30
     let OTP
     let countdown
     let yourInputNumber = ''
@@ -229,24 +199,66 @@
         let formSubmit = document.querySelector('.form-submit-tranfer')
 
         if (OTP === yourInputNumber) {
-            handleTranfer()
-            icon.classList.add('fa-check-circle')
-            icon.classList.remove('fa-times-circle')
-            boxVerify.querySelector('p').innerHTML = `
-                    Chuyển khoản thành công 👌 <br/> Bạn có muốn thực hiện giao dịch khác ?
-                    <br/>
-                    <div class='btn-wrap-confirm'>
-                        <a href='/tranfer'>
-                            <div class='btn btn-success'>Có</div>
-                        </a>
-                        <a href='/'>
-                            <div class='btn btn-danger'>Không</div>
-                        </a>
-                    </div>
-                    `
-            setTimeout(() => {
-                window.location.href = '/'
-            }, 8000)
+            //handleTranfer()
+            let formSubmit = document.querySelector('.form-submit-tranfer')
+            let idAccount = document.querySelector('.id-account').innerHTML
+            let toAcct = document.querySelector('#toAcct').value
+            let amount = document.querySelector('#amount').value
+            let description = document.querySelector('#description').value
+
+            formSubmit.addEventListener('submit', (e) => {
+                e.preventDefault()
+                refreshToken().then((value) => {
+                    console.log(value)
+                    $.ajax({
+                        url: 'https://7ucpp7lkyl.execute-api.ap-southeast-1.amazonaws.com/dev/transfer',
+                        headers: {
+                            accept: 'application/json',
+                            'access-token': value,
+                            'x-api-key': 'hutech_hackathon@123456',
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                        data: JSON.stringify({
+                            data: {
+                                amount: amount,
+                                description: description,
+                                fromAcct: idAccount,
+                                toAcct: toAcct,
+                            },
+                            request: {
+                                requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
+                                requestTime: '1667200102200',
+                            },
+                        }),
+                    }).then((result) => {
+                        if (result.response.responseMessage == 'Format message invalid, toAcct invalid' || result.response.responseMessage == 'System error') {
+                            alert('Tài khoản người hưởng không tồn tại !')
+                            window.location.href = '/tranfer'
+                        }
+                        else {
+                            icon.classList.add('fa-check-circle')
+                            icon.classList.remove('fa-times-circle')
+                            boxVerify.querySelector('p').innerHTML = `
+                                    Chuyển khoản thành công 👌 <br/> Bạn có muốn thực hiện giao dịch khác ?
+                                    <br/>
+                                    <div class='btn-wrap-confirm'>
+                                        <a href='/tranfer'>
+                                            <div class='btn btn-success'>Có</div>
+                                        </a>
+                                        <a href='/'>
+                                            <div class='btn btn-danger'>Không</div>
+                                        </a>
+                                    </div>
+                                    `
+                            boxVerify.classList.add('active')
+                            setTimeout(() => {
+                                window.location.href = '/'
+                            }, 8000)
+                        }
+                    })
+                })
+            })
         } else {
             formSubmit.addEventListener('submit', (e) => {
                 e.preventDefault()
@@ -258,8 +270,8 @@
             <br/>
             <span class='text-muted'>Vui lòng <span class='btn-return text-dark'>thử lại</span></span>
             `
+            boxVerify.classList.add('active')
         }
-        boxVerify.classList.add('active')
     })
 
     // handle btn return
@@ -301,7 +313,7 @@
 
     function resetStateOTP() {
         clearInterval(countdown)
-        expire = 60
+        expire = 30
         OTP = null
         yourInputNumber = ''
 

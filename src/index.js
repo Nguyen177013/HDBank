@@ -48,90 +48,52 @@ app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}`)
 })
 
+var checkLogin = async(req, res, next) => {
+    try {
+        // kiểm tra thấy nếu token có giá trị sẽ cho phép truy cập vào trang HOME
+        // sai sẽ trả về trang LOGIN
+        token = req.cookies.token
+        if (token) {
+            next()
+        } else {
+            res.render('login')
+        }
+    } catch (error) {
+        res.render('login')
+    }
+}
+
 var token
 
 // Get Home
-app.get(
-    '/',
-    (req, res, next) => {
-        try {
-            // kiểm tra thấy nếu token có giá trị sẽ cho phép truy cập vào trang HOME
-            // sai sẽ trả về trang LOGIN
-            token = req.cookies.token
-            if (token) {
-                next()
-            } else {
-                res.render('login')
-            }
-        } catch (error) {
-            res.render('login')
-        }
-    },
-    (req, res, next) => {
-        res.render('home', { index: 0, token: token })
-    },
-)
+app.get('/', checkLogin, (req, res, next) => {
+    res.render('home', { index: 0, token: token })
+})
 
 // Get Tranfer
-app.get(
-    '/tranfer',
-    (req, res, next) => {
-        try {
-            // lấy accountNo từ token để chuyển khoản
-            token = req.cookies.token
-            if (token) {
-                next()
-            } else {
-                res.render('login')
-            }
-        } catch (error) {
-            res.render('login')
-        }
-    },
-    (req, res, next) => {
-        res.render('tranfer', { index: 1, token: token })
-    },
-)
+app.get('/tranfer', checkLogin, (req, res, next) => {
+    res.render('tranfer', { index: 1, token: token })
+})
 
 // Get Change Password
-app.get(
-    '/changePass',
-    (req, res, next) => {
-        try {
-            token = req.cookies.token
-            if (token) {
-                next()
-            } else {
-                res.render('login')
-            }
-        } catch (error) {
-            res.render('login')
-        }
-    },
-    (req, res, next) => {
-        res.render('changePass', { index: 3, token: token })
-    },
-)
+app.get('/changePass', checkLogin, (req, res, next) => {
+    res.render('changePass', { index: 3, token: token })
+})
 
 // Mua thẻ cào
-app.get(
-    '/buyCard',
-    (req, res, next) => {
-        try {
-            token = req.cookies.token
-            if (token) {
-                next()
-            } else {
-                res.render('login')
-            }
-        } catch (error) {
-            res.render('login')
-        }
-    },
-    (req, res, next) => {
-        res.render('buyCard', { index: 2, token: token })
-    },
-)
+app.get('/buyCard', checkLogin, (req, res, next) => {
+    res.render('buyCard', { index: 2, token: token })
+})
+
+// Thêm mới người nhận
+app.get('/createFriend', checkLogin, (req, res, next) => {
+    res.render('createFriend', { index: 1, token: token })
+})
+
+// Nạp tiền bằng thẻ card
+app.get('/addMoney', (req, res, next) => {
+    res.render('addMoney', { index: 0, token: token })
+})
 
 // Log out
 app.get('/deleteCookie', function(req, res, next) {
@@ -142,33 +104,50 @@ app.get('/deleteCookie', function(req, res, next) {
         }
         res.cookie(prop, '', { expires: new Date(0) })
     }
-    res.redirect('/user/login')
+    res.redirect('/')
 })
 
 // SMS
-const Nexmo = require('nexmo')
-const nexmo = new Nexmo({
-    apiKey: 'e5a8ec1d',
-    apiSecret: 'gJdCJWxBjQtAMs0f',
-})
+// const Nexmo = require('nexmo')
+// var nexmo = new Nexmo({
+//     apiKey: '24f3cd57',
+//     apiSecret: 'ijTDmo3XDKJi5HIt',
+// })
 
-app.post('/sendsms', function(req, res) {
-    const from = 'Vonage APIs'
-    const to = '84971521473'
-    const text = 'Hello Khai Vo'
+const { Vonage } = require('@vonage/server-sdk')
 
-    nexmo.message.sendSms(from, to, text, (err, responseData) => {
-        if (err) {
-            console.log(err)
-        } else {
-            if (responseData.messages[0]['status'] === '0') {
-                res.json(responseData)
-            } else {
-                res.json(`Message failed with error: ${responseData.messages[0]['error-text']}`)
-            }
-        }
-    })
-})
+// const vonage = new Vonage({
+//         apiKey: '24f3cd57',
+//         apiSecret: 'ijTDmo3XDKJi5HIt',
+//         applicationId: APP_ID,
+//         privateKey: PRIVATE_KEY_PATH,
+//         signatureSecret: SIGNATURE_SECRET,
+//         signatureMethod: SIGNATURE_METHOD,
+//     },
+//     options,
+// )
+
+// const vonage = new Vonage({
+//     apiKey: '24f3cd57',
+//     apiSecret: 'ijTDmo3XDKJi5HIt',
+// })
+// app.post('/sendsms', function(req, res) {
+//     const from = 'Vonage APIs'
+//     const to = '84971521473'
+//     const text = 'A text message sent using the Vonage SMS API'
+
+//     vonage.message.sendSms(from, to, text, (err, responseData) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             if (responseData.messages[0]['status'] === '0') {
+//                 console.log('Message sent successfully.')
+//             } else {
+//                 console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`)
+//             }
+//         }
+//     })
+// })
 
 // Nhận các route sau đó sử dụng (luôn để dưới cùng)
 const route = require('./routes')

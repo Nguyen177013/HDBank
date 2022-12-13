@@ -1,0 +1,39 @@
+<div class='container-left'>
+    {{> sidebar }}
+</div>
+<div class='container-right'>
+    <div class='tranfer'>
+        <div class='tranfer-left'>
+            <img
+                style='top: 50px; width: 450px; margin-right: 42px;'
+                src='https://cdn-icons-png.flaticon.com/512/6980/6980023.png'
+                alt=''
+            />
+        </div>
+        <div class='tranfer-right'>
+            <div class='tranfer-header'>Thêm người nhận</div>
+
+            <div class='container-content'>
+                <div class='mobile-verify go-right active-box'>
+                    <form class='form-action-add-friend' method='POST'>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Tên người dùng:</div>
+                            <input type='text' class='tranfer-input' name='fullname' id='fullname' required />
+                        </div>
+                        <div class='tranfer-item'>
+                            <div class='tranfer-title'>Số tài khoản:</div>
+                            <input type='text' class='tranfer-input' name='idAccount' id='idAccount' required />
+                        </div>
+                        <div class='tranfer-button'>
+                            <span></span>
+                            <button type='submit' class='btn btn-continue btn-confirm' onclick="handleAddFriend()">
+                                Thêm mới
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

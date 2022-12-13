@@ -1,0 +1,49 @@
+<div class='container-left'>
+    {{> sidebar }}
+</div>
+<div class='container-right'>
+    <div class='tranfer'>
+        <div class='tranfer-left'>
+            <img
+                src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
+                alt=''
+            />
+        </div>
+        <div class='tranfer-right'>
+            <div class='tranfer-header'>Nạp tiền bằng thẻ cào <span class='id-account' hidden>{{token}}</span></div>
+
+            <div class='container-content'>
+                <div class='mobile-verify go-right active-box'>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Nhà mạng :</div>
+                        <select id='type-supplier' name='type-supplier' class='tranfer-input' required>
+                            <option value=''>-- Chọn nhà mạng --</option>
+                            <option name='viettel'>Viettel</option>
+                            <option name='mobifone'>Mobifone</option>
+                            <option name='vinafone'>Vinafone</option>
+                        </select>
+                    </div>
+                    <div class='tranfer-item'>
+                        <div class='tranfer-title'>Nhập mã thẻ cào :</div>
+                        <input type='text' class='tranfer-input' name='value-code' id='value-code' required />
+                    </div>
+                    <div class='tranfer-button'>
+                        <span></span>
+                        <button class='btn btn-confirm' onclick='handleAddMoney()'>
+                            Nạp ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Nạp tiền bằng thẻ
+    let myId = document.querySelector('.id-account').innerHTML
+    let idService = '004704070000178'
+
+    console.log(myId)
+
+</script>

@@ -95,7 +95,6 @@
 
         formSubmit.addEventListener('submit', (e) => {
             e.preventDefault()
-            console.log(123)
 
             refreshToken().then((value) => {
                 // Get PublicKey
@@ -157,7 +156,7 @@
     const expireEle = document.querySelector('.expire')
 
     // OTP
-    let expire = 60
+    let expire = 30
     let OTP
     let countdown
     let yourInputNumber = ''
@@ -170,9 +169,7 @@
         let newPass = document.querySelector('#newPass').value.trim()
         let repeatNewPass = document.querySelector('#repeatNewPass').value.trim()
 
-        console.log(username)
-
-        if(currentPass == "" || newPass == "" || repeatNewPass == "") {
+        if(username == "" || currentPass == "" || newPass == "" || repeatNewPass == "") {
             alert("Vui lòng nhập đầy đủ thông tin !")
         } else {
             if(newPass === repeatNewPass) {
@@ -228,9 +225,10 @@
             icon.classList.remove('fa-times-circle')
             boxVerify.querySelector('p').innerHTML = `
                     Đổi mật khẩu thành công 🤗 <br/> 
+                    Vui lòng đăng nhập lại để tiếp tục phiên làm việc
                     `
             setTimeout(() => {
-                window.location.href = '/'
+                window.location.href = '/deleteCookie'
             }, 8000)
         } else {
             formSubmit.addEventListener('submit', (e) => {
@@ -266,7 +264,6 @@
             if (expire === 0) {
                 clearInterval(countdown)
                 OTP = null
-                console.log(OTP)
             }
             expireEle.textContent = expire < 10 ? '0' + expire + 's' : expire + 's'
         }, 1000)
@@ -286,7 +283,7 @@
 
     function resetStateOTP() {
         clearInterval(countdown)
-        expire = 60
+        expire = 30
         OTP = null
         yourInputNumber = ''
 

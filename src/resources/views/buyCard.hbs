@@ -4,8 +4,8 @@
 <div class='container-right'>
     <div class='tranfer'>
         <div class='tranfer-left'>
-            <img style="top: 62px;"
-                src='https://uploads.nguoidothi.net.vn/content/ee652e33-b7af-4118-9f03-e745c08648f8.jpg'
+            <img style="top: 120px; width: 400px; margin-left: 42px; margin-right: 42px;"
+                src='https://i.postimg.cc/WzYmQH9H/1912cc54-29e7-472d-9e0b-e0bcbee757ab.jpg'
                 alt=''
             />
         </div>
@@ -103,6 +103,7 @@
         copyText.select()
         navigator.clipboard.writeText(copyText.value)
     }
+
     // Mua thẻ cào
     function handleBuyCard() {
         let formSubmit = document.querySelector('.form-action-buy-card')
@@ -110,7 +111,7 @@
         let typePrice = document.querySelector('#type-price').value
         let quantity = document.querySelector('#quantity').value
         let myIdAcct = document.querySelector('.id-account').innerHTML
-        let idToAcct = "004704070000125"
+        let idService = "004704070000178"
 
         formSubmit.addEventListener('submit', (e) => {
             e.preventDefault()
@@ -129,7 +130,7 @@
                             amount: typePrice,
                             description: "description",
                             fromAcct: myIdAcct,
-                            toAcct: idToAcct,
+                            toAcct: idService,
                         },
                         request: {
                             requestId: 'a7ea23df-7468-439d-9b12-26eb4a760901',
@@ -138,7 +139,7 @@
                     }),
                 }).then((result) => {
                     if (result.response.responseMessage == 'Format message invalid, toAcct invalid') {
-                        alert('Tài khoản người hưởng không tồn tại !')
+                        alert('Không tìm thấy tài khoản !')
                     }
                 })
             })
@@ -159,7 +160,7 @@
     const expireEle = document.querySelector('.expire')
 
     // OTP
-    let expire = 60
+    let expire = 30
     let OTP
     let countdown
     let yourInputNumber = ''
@@ -228,8 +229,9 @@
             }).then((result) => {
                 const data = result.records
                 let typePrice = document.querySelector('#type-price').value
+
                 function checkState(item) {
-                if (item.state == false && item.price == typePrice)
+                if (item.price == typePrice && item.sold == '0')
                     return item;
                 }
 
@@ -239,8 +241,7 @@
                 icon.classList.remove('fa-times-circle')
                 boxVerify.querySelector('p').innerHTML = `
                     Mua mã thẻ thành công 🤗 <br/>
-                    <li class='account-item'>
-                        <h2 class='account-item-header'>Số tài khoản:</h2>
+                    <li class='account-item' style="margin: 12px; margin-right: 58px;">
                         <h2 class='account-des'>${code}</h2>
                         <input hidden type='text' value=${code} id='inputAccount' />
                         <span class='button-copy' onclick='handleCopy()'><ion-icon name='copy-outline'></ion-icon></span>
@@ -251,6 +252,19 @@
                         </span>
                     </li>
                     `
+
+                // Set true for card in database 
+                $.ajax({
+                    url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/cards/data/' + newArr.id ,
+                    headers: {
+                        Authorization: 'Bearer' + ' ' + apiKeyXata,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PATCH',
+                    data: JSON.stringify({price: newArr.price, codeValue: newArr.codeValue, sold: '1', state: false}),
+                }).then((result) => {
+                    console.log(result)
+                })
             })
         } else {
             formSubmit.addEventListener('submit', (e) => {
@@ -264,7 +278,7 @@
             <span class='text-muted'>Vui lòng <span class='btn-return text-dark'>thử lại</span></span>
             `
         }
-        boxVerify.classList.add('active')
+            boxVerify.classList.add('active')
     })
 
     // handle btn return
@@ -286,7 +300,6 @@
             if (expire === 0) {
                 clearInterval(countdown)
                 OTP = null
-                console.log(OTP)
             }
             expireEle.textContent = expire < 10 ? '0' + expire + 's' : expire + 's'
         }, 1000)
@@ -306,7 +319,7 @@
 
     function resetStateOTP() {
         clearInterval(countdown)
-        expire = 60
+        expire = 30
         OTP = null
         yourInputNumber = ''
 

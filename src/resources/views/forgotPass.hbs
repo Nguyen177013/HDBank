@@ -1,0 +1,75 @@
+<div class='tranfer-right'>
+    <div class='tranfer-header'>Đổi mật khẩu</div>
+
+    <div class='container-content'>
+        <div class='mobile-verify go-right active-box'>
+            <div class='tranfer-item'>
+                <div class='tranfer-title'>Tên đăng nhập :</div>
+                <input type='text' class='tranfer-input' name='username' id='username' value='' required />
+            </div>
+            <div class='tranfer-item'>
+                <div class='tranfer-title'>Mật khẩu hiện tại :</div>
+                <input
+                    type='password'
+                    class='tranfer-input current-password'
+                    name='currentPass'
+                    id='currentPass'
+                    value=''
+                    required
+                />
+                <span><ion-icon class='icon-eye eye-open-current hidden' name='eye-outline'></ion-icon></span>
+                <span><ion-icon class='icon-eye eye-close-current' name='eye-off-outline'></ion-icon></span>
+            </div>
+            <div class='tranfer-item'>
+                <div class='tranfer-title'>Mật khẩu mới :</div>
+                <input
+                    type='password'
+                    class='tranfer-input new-password'
+                    name='newPass'
+                    id='newPass'
+                    value=''
+                    required
+                />
+                <span><ion-icon class='icon-eye eye-open-new hidden' name='eye-outline'></ion-icon></span>
+                <span><ion-icon class='icon-eye eye-close-new' name='eye-off-outline'></ion-icon></span>
+            </div>
+            <div class='tranfer-item'>
+                <div class='tranfer-title'>Nhập lại mật khẩu :</div>
+                <input
+                    type='password'
+                    class='tranfer-input'
+                    name='repeatNewPass'
+                    id='repeatNewPass'
+                    value=''
+                    required
+                />
+            </div>
+            <div class='tranfer-button'>
+                <span></span>
+                <button class='btn btn-continue btn-confirm'>
+                    Tiếp tục
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section>
+    <h2>Telesign SMS Verify</h2>
+    <form onsubmit='TelesignSMSVerify()'>
+        <label>Phone Number</label>
+        <input name='to' value='15551231234' />
+        <label>Code</label>
+        <input name='code' value='123456' />
+        <span></span>
+        <button>Make API Request</button>
+    </form>
+</section>
+<script>
+    async function TelesignSMSVerify() { event.preventDefault(); const form = event.target; const to =
+    form.querySelector('[name=to]').value; const code = form.querySelector('[name=code]').value; const result = await
+    fetch("https://telesign-telesign-send-sms-verification-code-v1.p.rapidapi.com/sms-verification-code?phoneNumber=" +
+    to + "&verifyCode=" + code, { "method": "POST", "headers": { "x-rapidapi-host":
+    "telesign-telesign-send-sms-verification-code-v1.p.rapidapi.com", "x-rapidapi-key": YOUR_RAPID_API_KEY_GOES_HERE, },
+    }); const body = await result.json(); console.log(body); alert(body.message); }
+</script>
