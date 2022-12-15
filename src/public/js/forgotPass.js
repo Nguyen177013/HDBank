@@ -59,26 +59,15 @@ btnVerify.addEventListener('click', () => {
     let repeatNewPass = document.querySelector('#repeatNewPass').value.trim()
     let codeOtp = document.querySelector('#code-otp').value.trim()
 
-    if (newPass == '' || repeatNewPass == '' || codeOtp == '') {
-        // fix lỗi gửi sự kiện gửi đi khi chưa nhập thông tin tại đây --------------------------------------------------
-        alert('Vui lòng nhập đầy đủ thông tin !')
-    } else {
-        if (newPass !== repeatNewPass || valueRandom !== codeOtp) {
-            let formSubmit = document.querySelector('.form-action-forgott-password')
-            formSubmit.addEventListener('submit', (e) => {
-                e.preventDefault()
-            })
-            alert('Mật khẩu chưa trùng khớp !')
-                // fix lỗi gửi sự kiện gửi đi khi chưa nhập thông tin tại đây --------------------------------------------------
-                //handleForgotPass()
-        } else {
-            let formSubmit = document.querySelector('.form-action-forgot-password')
-            formSubmit.addEventListener('submit', (e) => {
-                e.preventDefault()
-            })
-
-            // gọi ra tất cả thông tin có trong DB user
-            // so sánh để lấy ra username đúng như người dùng nhập ngoài input
+    let formSubmit = document.querySelector('.form-action-forgot-password')
+    formSubmit.addEventListener('submit', (e) => {
+        e.preventDefault()
+        if (newPass == '' || repeatNewPass == '' || codeOtp == '') {
+            return alert('Vui lòng nhập đầy đủ thông tin !')
+        } else if (newPass !== repeatNewPass) {
+            return alert('Mật khẩu chưa trùng khớp !')
+        }
+        else {
             let apiKeyXata = 'xau_NFju5b34TYFnTVeex0PP51gJ1xGDoFmG0'
             $.ajax({
                 url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/users/query',
@@ -171,5 +160,4 @@ btnVerify.addEventListener('click', () => {
                 })
             })
         }
-    }
-})
+    })
