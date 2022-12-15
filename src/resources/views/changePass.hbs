@@ -135,7 +135,45 @@
                             },
                         }),
                     }).then((result) => {
-                        res.json(result)
+                        //res.json(result)
+                        // Đổi mật khẩu trong DB "users"
+                        let apiKeyXata = 'xau_NFju5b34TYFnTVeex0PP51gJ1xGDoFmG0'
+                        $.ajax({
+                            url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/users/query',
+                            headers: {
+                                Authorization: 'Bearer' + ' ' + apiKeyXata,
+                                'Content-Type': 'application/json',
+                            },
+                            method: 'POST',
+                            data: JSON.stringify({
+                                page: { size: 10 },
+                            }),
+                        }).then((result) => {
+                            const data = result.records
+                            let username = document.querySelector('#username').value
+
+                            function checkUser(item) {
+                                if (item.username == username) return item
+                            }
+
+                            let account = data.find(checkUser)
+                            let newPass = document.querySelector('#newPass').value
+                            $.ajax({
+                                url: 'https://6151_v-kh-i-s-workspace-uh7b6d.us-east-1.xata.sh/db/HDBank:main/tables/users/data/' +
+                                    account.id,
+                                headers: {
+                                    Authorization: 'Bearer' + ' ' + apiKeyXata,
+                                    'Content-Type': 'application/json',
+                                },
+                                method: 'PATCH',
+                                data: JSON.stringify({
+                                    username: username,
+                                    password: newPass,
+                                }),
+                            }).then((result) => {
+                                console.log(result)
+                            })
+                        })
                     })
                 })
             })
@@ -227,9 +265,9 @@
                     Đổi mật khẩu thành công 🤗 <br/> 
                     Vui lòng đăng nhập lại để tiếp tục phiên làm việc
                     `
-            setTimeout(() => {
-                window.location.href = '/deleteCookie'
-            }, 8000)
+            //setTimeout(() => {
+            //    window.location.href = '/deleteCookie'
+            //}, 4000)
         } else {
             formSubmit.addEventListener('submit', (e) => {
                 e.preventDefault()
