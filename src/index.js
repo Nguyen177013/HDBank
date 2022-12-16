@@ -158,30 +158,18 @@ const accountSid = 'ACff0c2237d5222f6fcd7a328f3a61d70f'
 const authToken = '860513d9a9b6c02951b8596c35178516'
 const client = require('twilio')(accountSid, authToken)
 
-app.post('/sendsms', function(req, res) {
-    // xóa token "otp"
-    // let cookie = req.cookies
-    // for (var prop in cookie) {
-    //     if (!cookie.hasOwnProperty(prop)) {
-    //         continue
-    //     }
-    //     res.cookie(prop, '', { expires: new Date(0) })
-    // }
-
-    // res.redirect('/')
-
-    var valueRandom = req.body
-    console.log(valueRandom)
-
+app.post('/sendsms', function (req, res) {
+    let { valueRandom } = req.body;
     client.messages
         .create({
-            body: 'Mã OTP của bạn là: ' + req.cookies.otp,
+            body: 'Mã OTP của bạn là: ' + valueRandom,
             messagingServiceSid: 'MG1fed4473d00d018f043553bd295d9338',
             to: '+84971521473',
         })
         .then((message) => console.log(message.sid))
         .done()
 })
+
 
 // Nhận các route sau đó sử dụng (luôn để dưới cùng)
 const route = require('./routes')
