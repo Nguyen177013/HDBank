@@ -1,60 +1,61 @@
-<div class='container-left'>
-    {{> sidebar }}
-</div>
-<div class='container-right'>
-    <div class='tranfer'>
-        <div class='tranfer-left'>
-            <img
-                src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
-                alt=''
-            />
-        </div>
-        <div class='tranfer-right'>
-            <div class='tranfer-header'>Đổi mật khẩu</div>
+<div class='tranfer'>
+    <div class='tranfer-left' style='margin-left: 80px;'>
+        <img
+            src='https://static.wixstatic.com/media/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png/v1/fill/w_1182,h_1182,al_c/9d8ed5_0f9b1175f94f4ce4a6789d63a1540044~mv2.png'
+            alt=''
+        />
+    </div>
+    <div class='tranfer-right'>
+        <div class='tranfer-header'>Đổi mật khẩu</div>
 
-            <div class='container-content'>
-                <div class='mobile-verify go-right active-box'>
-                    <div class='tranfer-item'>
-                        <div class='tranfer-title'>Tên đăng nhập :</div>
-                        <input type='text' class='tranfer-input' name='username' id='username' value='' required />
-                    </div>
+        <div class='container-content'>
+            <div class='mobile-verify go-right active-box'>
+                <div class='tranfer-item'>
+                    <div class='tranfer-title'>Tên đăng nhập :</div>
+                    <input type='text' class='tranfer-input' name='username' id='username' value='' required />
+                </div>
 
-                    <div class='tranfer-button'>
-                        <span></span>
-                        <button class='btn btn-continue btn-confirm'>
-                            Tiếp tục
-                        </button>
-                    </div>
+                <div class='tranfer-button'>
+                    <span>
+                        <a href='/user/login'><div class='btn btn-outline'>« Quay lại</div></a>
+                    </span>
+                    <button class='btn btn-continue btn-confirm'>
+                        Tiếp tục
+                    </button>
                 </div>
-                <div class='otp-container go-right'>
-                    <div class='nav d-flex align-items-center'>
-                        <i class='btn-back fas fa-arrow-left'></i>
-                        <p>Xác thực OTP</p>
-                    </div>
-                    <div class='tranfer-item'>
-                        <div class='tranfer-title'>Mật khẩu mới :</div>
-                        <input type='password' class='tranfer-input new-password' name='newPass' id='newPass' value='' required />
-                    </div>
-                    <div class='tranfer-item'>
-                        <div class='tranfer-title'>Nhập lại mật khẩu :</div>
-                        <input type='password' class='tranfer-input' name='repeatNewPass' id='repeatNewPass' value='' required />
-                    </div>
-                    <div class='tranfer-item'>
-                        <div class='tranfer-title'>Mã xác thực :</div>
-                        <input type='text' class='tranfer-input new-password' name='code-otp' id='code-otp' value='' required />
-                    </div>
-                    <form style="margin-top: 32px;" class='form-action-forgot-password d-flex align-items-center justify-content-between' method='POST'> 
-                        <span>
-                            <a class="btn-send-otp" href="tel: 4257">Lấy mã xác thực</a>
-                        </span>
-                        <button class='btn btn-verify d-flex align-items-center justify-content-between'>
-                            Xác nhận
-                            <i class='fas fa-arrow-right'></i>
-                        </button>
-                    </form>
+            </div>
+            <div class='otp-container go-right'>
+                <div class='nav d-flex align-items-center'>
+                    <i class='btn-back fas fa-arrow-left'></i>
+                    <p>Xác thực OTP</p>
                 </div>
+                <div class='tranfer-item'>
+                    <div class='tranfer-title'>Mật khẩu mới :</div>
+                    <input type='password' class='tranfer-input new-password' name='newPass' id='newPass' required />
+                </div>
+                <div class='tranfer-item'>
+                    <div class='tranfer-title'>Nhập lại mật khẩu :</div>
+                    <input type='password' class='tranfer-input' name='repeatNewPass' id='repeatNewPass' required />
+                </div>
+                <div class='tranfer-item'>
+                    <div class='tranfer-title'>Mã xác thực :</div>
+                    <input type='text' class='tranfer-input new-password' name='code-otp' id='code-otp' required />
+                </div>
+                <form
+                    style='margin-top: 32px;'
+                    class='form-action-forgot-password d-flex align-items-center justify-content-between'
+                    method='POST'
+                >
+                    <span>
+                        <a class='btn-send-otp' href='tel: 4257'>Lấy mã xác thực</a>
+                    </span>
+                    <button class='btn btn-verify d-flex align-items-center justify-content-between'>
+                        Xác nhận
+                        <i class='fas fa-arrow-right'></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
+{{! </div> }}
