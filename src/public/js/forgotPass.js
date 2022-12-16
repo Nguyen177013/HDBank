@@ -50,26 +50,15 @@ btnContinue.addEventListener('click', () => {
         })
         valueRandom = random
 
-        // fetch('/sendsms', {
-        //     method: 'POST',
-        //     body: JSON.stringify({ valueRandom }),
-        //     headers: { 'Content-Type': 'application/json' },
-        // }).then((data) => {
-        //     console.log('oke')
-        // })
-
-        $.ajax({
-            url: '/sendsms',
+  fetch('/sendsms', {
             method: 'POST',
-            body: JSON.stringify({
-                valueRandom: valueRandom,
-            }),
+            body: JSON.stringify({ valueRandom }),
+            headers: { 'Content-Type': 'application/json' },
         }).then((data) => {
-            setCookie('otp', valueRandom, 1)
-            console.log(valueRandom)
+            console.log('oke')
         })
 
-        //btnSendOtp.setAttribute('href', 'tel:' + valueRandom)
+
     }
 })
 
